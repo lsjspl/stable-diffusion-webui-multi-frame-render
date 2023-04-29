@@ -14,7 +14,7 @@ from modules import deepbooru
 import os
 from types import SimpleNamespace
 
-import helper.videohelpModule as videoHelper
+import scripts.helper.videohelpModule as videoHelper
 
 
 class Script(scripts.Script):
