@@ -19,7 +19,7 @@ import helper.videohelpModule as videoHelper
 
 class Script(scripts.Script):
     def title(self):
-        return "(Beta) Multi-frame Video rendering - V0.72"
+        return "SD Multi-frame Video rendering - V0.72"
 
     def show(self, is_img2img):
         return is_img2img
