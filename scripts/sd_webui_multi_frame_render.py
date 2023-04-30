@@ -200,6 +200,7 @@ sd处理input文件夹的图片。
 
                 state.job = f"Iteration {i + 1}/{loops}, batch {n + 1}/{batch_count}"
 
+                p.inpainting_fill=1
                 processed = processing.process_images(p)
 
                 # 如果是重复生成，那就把要生成的前一帧output里的图片直接返回
