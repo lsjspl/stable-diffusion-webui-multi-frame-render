@@ -65,9 +65,16 @@ sd处理input文件夹的图片。
         videoHelper.init(videoPath)
         # 生成序列帧
         videoHelper.video2Img(fpsSlider)
-        sortData = videoHelper.sortPath(videoHelper.inputDir)
+        sortInputDir = videoHelper.sortPath(videoHelper.inputDir)
+        if not sortInputDir:
+            return
+        sortSrcDir = videoHelper.sortPath(videoHelper.srcDir)
+        srcIndex = sortSrcDir.index(sortInputDir[0]) - 1
+
+        if srcIndex >= 0:
+            sortInputDir.insert(sortSrcDir[srcIndex - 1])
         reference_imgs = []
-        for name in sortData:
+        for name in sortInputDir:
             reference_imgs.append(SimpleNamespace(**{"name": f"{videoHelper.srcDir}/{name}"}))
 
         print(reference_imgs)
@@ -228,8 +235,13 @@ sd处理input文件夹的图片。
                                       info=info, short_filename=not opts.grid_extended_filename, grid=True, p=p,
                                       save_to_dirs=False, forced_filename=fileName)
 
-                frames.append(processed.images[0])
-
+                # 如果是重复生成，那就把要生成的前一帧output里的图片直接返回
+                if srcIndex >= 0 and i == 0:
+                    firstFrame = Image.open(f"{videoHelper.srcDir}/{sortSrcDir[srcIndex]}").convert("RGB").resize(
+                        (initial_width, p.height), Image.ANTIALIAS)
+                    frames.append(firstFrame)
+                else:
+                    frames.append(processed.images[0])
             grid = images.image_grid(history, rows=1)
             if opts.grid_save:
                 images.save_image(grid, videoHelper.workspace + "/grid", "grid", initial_seed, p.prompt,
