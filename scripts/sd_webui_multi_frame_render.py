@@ -57,7 +57,6 @@ sd处理input文件夹的图片。
                 color_correction_enabled,
                 unfreeze_seed, loopback_source]
 
-
     def run(self, p, append_interrogation, videoPath, fpsSlider, first_denoise, third_frame_image,
             color_correction_enabled,
             unfreeze_seed, loopback_source):
@@ -78,7 +77,6 @@ sd处理input文件夹的图片。
         for name in sortInputDir:
             reference_imgs.append(SimpleNamespace(**{"name": f"{videoHelper.srcDir}/{name}"}))
 
-        print(reference_imgs)
         freeze_seed = not unfreeze_seed
 
         loops = len(reference_imgs)
@@ -200,14 +198,12 @@ sd处理input文件夹的图片。
 
                 state.job = f"Iteration {i + 1}/{loops}, batch {n + 1}/{batch_count}"
 
-                p.inpainting_fill=1
                 processed = processing.process_images(p)
-
                 # 如果是重复生成，那就把要生成的前一帧output里的图片直接返回
                 if srcIndex >= 0 and i == 0:
-                    firstFrame = Image.open(f"{videoHelper.outputDir}/{sortSrcDir[srcIndex]}").convert("RGB").resize(
+                    processed.images[0] = Image.open(f"{videoHelper.outputDir}/{sortSrcDir[srcIndex]}").convert(
+                        "RGB").resize(
                         (initial_width, p.height), Image.ANTIALIAS)
-                    processed.images[0] = firstFrame
                 # ---------------------------------------------------------------------
 
                 if initial_seed is None:
