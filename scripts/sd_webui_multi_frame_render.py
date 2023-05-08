@@ -229,7 +229,8 @@ sd处理input文件夹的图片。
                 if (freeze_seed):
                     p.seed = processed.seed
                 else:
-                    p.seed = processed.seed + 1
+                    # p.seed = processed.seed + 1
+                    p.seed = p.seed
 
                 history.append(init_img)
                 if opts.samples_save:
