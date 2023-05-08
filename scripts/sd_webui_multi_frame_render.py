@@ -229,8 +229,7 @@ sd处理input文件夹的图片。
                 if (freeze_seed):
                     p.seed = processed.seed
                 else:
-                    # p.seed = processed.seed + 1
-                    p.seed = p.seed
+                    p.seed = processed.seed + 1
 
                 history.append(init_img)
                 if opts.samples_save:
@@ -253,7 +252,8 @@ sd处理input文件夹的图片。
             # all_images += history + frames
             all_images += history
 
-            p.seed = p.seed + 1
+            # 不让seed+1
+            # p.seed = p.seed + 1
 
         if opts.return_grid:
             all_images = grids + all_images
